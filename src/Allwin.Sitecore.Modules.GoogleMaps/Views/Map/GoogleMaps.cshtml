@@ -1,0 +1,40 @@
+﻿@model Allwin.Sitecore.Modules.GoogleMaps.Models.Map.GoogleMaps.Map
+
+@{
+    var mapId = Sitecore.Mvc.Presentation.RenderingContext.Current.Rendering.Id.ToString();
+    var alreadyIncluded = HttpContext.Current.Items["GoogleMap_Included"] != null;
+}
+
+<div id="map-@mapId" style="min-height:400px; @(string.IsNullOrWhiteSpace(Model.MapOptions.Height) ? string.Empty : string.Format("height: {0}px;", Model.MapOptions.Height))"></div>
+
+@if (!alreadyIncluded)
+{
+    if (Model.MapOptions.IncludeGoogleMapScript)
+    {
+            <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3&sensor=false&key=@Model.AppId"></script>
+    }
+
+    <script type="text/javascript" src="~/sitecore modules/Web/Google Maps/scripts/map.js"></script>
+}
+<script>
+    initMap("@(Json.Encode(Model))", '@mapId', @Model.MapOptions.AskForGeolocation.ToString().ToLower(), {
+        @Html.Raw(Model.MapOptions.MapType)
+        @Html.Raw(Model.MapOptions.BackgroundColor)
+        @Html.Raw(Model.MapOptions.DisableDefaultUI)
+        @Html.Raw(Model.MapOptions.DisableDoubleClickZoom)
+        @Html.Raw(Model.MapOptions.InitialCenter)
+        @Html.Raw(Model.MapOptions.InitialZoom)
+        @Html.Raw(Model.MapOptions.MaxZoom)
+        @Html.Raw(Model.MapOptions.MinZoom)
+        @Html.Raw(Model.MapOptions.KeyboardShortcuts)
+        @Html.Raw(Model.MapOptions.MapMaker)
+        @Html.Raw(Model.MapOptions.ScrollWheel)
+        @Html.Raw(Model.MapOptions.Draggable)
+        @Html.Raw(Model.MapOptions.DraggingCursor)
+        @Html.Raw(Model.MapOptions.Heading)
+        @Html.Raw(Model.MapOptions.Tilt)
+    });
+</script>
+@{
+    HttpContext.Current.Items["GoogleMap_Included"] = true;
+}
