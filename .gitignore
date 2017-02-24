@@ -1,0 +1,8 @@
+*.cache
+*.dll
+src/packages/
+bin
+obj
+*.pdb
+*.targets
+*.user
