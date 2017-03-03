@@ -6,3 +6,5 @@ obj
 *.pdb
 *.targets
 *.user
+*.suo
+src/.vs
